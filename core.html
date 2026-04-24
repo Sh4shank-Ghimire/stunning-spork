@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dalle ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{
+  background: radial-gradient(circle at top,#ffd6ec,#ff9ccf,#ff69b4);
+  color:white;
+  overflow-x:hidden;
+}
+.container{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+
+h1{
+  font-size:3rem;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  opacity:0.9;
+  margin-bottom:20px;
+}
+
+button{
+  padding:14px 28px;
+  border:none;
+  border-radius:40px;
+  background:white;
+  color:#ff1493;
+  font-size:1.1rem;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+button:hover{transform:scale(1.1)}
+
+.card{
+  display:none;
+  max-width:850px;
+  margin-top:30px;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(18px);
+  padding:30px;
+  border-radius:25px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+}
+
+p{
+  line-height:1.9;
+  margin-bottom:18px;
+  font-size:1.1rem;
+}
+
+.final{
+  font-size:1.6rem;
+  font-weight:700;
+  margin-top:20px;
+}
+
+.floating{
+  position:absolute;
+  font-size:26px;
+  animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(100vh) scale(0.5);opacity:0}
+  50%{opacity:1}
+  100%{transform:translateY(-10vh) scale(1.2);opacity:0}
+}
+
+.popup{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:white;
+  color:#ff1493;
+  padding:12px 18px;
+  border-radius:20px;
+  display:none;
+  font-size:0.9rem;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+.teddy{
+  position:absolute;
+  font-size:40px;
+  animation:floatSide 12s linear infinite;
+}
+
+@keyframes floatSide{
+  0%{transform:translateX(-10vw) translateY(80vh)}
+  100%{transform:translateX(110vw) translateY(-20vh)}
+}
+
+@media(max-width:600px){
+  h1{font-size:2rem}
+  p{font-size:1rem}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Happy Birthday Dalle 💖🌸🧸</h1>
+  <p class="subtitle">Tap anywhere… it's your world today ✨</p>
+  <button onclick="startExperience()">Start 💕</button>
+
+  <div class="card" id="card"></div>
+</div>
+
+<div class="popup" id="popup"></div>
+
+<audio id="bgm" loop>
+  <source src="https://www2.cs.uic.edu/~i101/SoundFiles/StarWars60.wav" type="audio/wav">
+</audio>
+
+<script>
+const emojis = ['🌸','💖','💐','✨','💕','🌷','🦋','🎀'];
+
+const teddies = ['🧸','🧸','🧸'];
+
+const popups = [
+"cutest human alive 🧸",
+"my baby 💖",
+"you make my world soft 🌸",
+"stop being adorable 😤💕",
+"today is all about you 🎀"
+];
+
+const text = [
+"I don’t think I’ve ever really been able to explain what you are to me properly... 💖",
+"There was a time when I thought I needed to be alone… but all I found was emptiness without you 🌸",
+"You didn’t deserve that distance… and I regret it deeply 💐",
+"You’re like a kid sometimes… innocent, soft, and real 🧸",
+"I love everything about you… even the smallest things 💕",
+"Patan, Shandaar momo, Godawari, Dakshinkali… all magical because of you 🌷",
+"You’re not temporary… you’re something I hold onto 💖",
+"I don’t want a life where you’re not in it 🌸",
+"I’ll be better for you… because you deserve everything 🎀",
+"You’re Dalle… and that means everything to me 💐",
+"I’m glad it’s still us ✨",
+"Happy Birthday ❤️"
+];
+
+let i=0;
+const card=document.getElementById("card");
+
+function typeParagraph(paragraph, callback){
+  let j=0;
+  let p=document.createElement("p");
+  card.appendChild(p);
+
+  function type(){
+    if(j<paragraph.length){
+      p.innerHTML += paragraph.charAt(j);
+      j++;
+      setTimeout(type,20);
+    }else{
+      setTimeout(callback,700);
+    }
+  }
+  type();
+}
+
+function startExperience(){
+  document.querySelector("button").style.display="none";
+  card.style.display="block";
+  document.getElementById("bgm").play();
+  next();
+}
+
+function next(){
+  if(i<text.length){
+    typeParagraph(text[i], ()=>{
+      i++;
+      next();
+    });
+  }else{
+    let final=document.createElement("div");
+    final.className="final";
+    final.innerHTML="I love you so much ❤️";
+    card.appendChild(final);
+  }
+}
+
+// floating emojis
+for(let k=0;k<70;k++){
+  let el=document.createElement("div");
+  el.className="floating";
+  el.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.left=Math.random()*100+"vw";
+  el.style.animationDuration=(5+Math.random()*6)+"s";
+  document.body.appendChild(el);
+}
+
+// teddy animation
+for(let t=0;t<8;t++){
+  let teddy=document.createElement("div");
+  teddy.className="teddy";
+  teddy.innerHTML="🧸";
+  teddy.style.top=Math.random()*80+"vh";
+  teddy.style.animationDuration=(10+Math.random()*10)+"s";
+  document.body.appendChild(teddy);
+}
+
+// click interaction
+document.body.addEventListener("click", function(e){
+  let spark=document.createElement("div");
+  spark.innerHTML="💖";
+  spark.style.position="absolute";
+  spark.style.left=e.clientX+"px";
+  spark.style.top=e.clientY+"px";
+  spark.style.fontSize="24px";
+  document.body.appendChild(spark);
+
+  setTimeout(()=>spark.remove(),800);
+
+  showPopup();
+});
+
+function showPopup(){
+  let popup=document.getElementById("popup");
+  popup.innerText=popups[Math.floor(Math.random()*popups.length)];
+  popup.style.display="block";
+  setTimeout(()=>popup.style.display="none",2000);
+}
+</script>
+</body>
+</html>
